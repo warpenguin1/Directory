@@ -2,7 +2,7 @@
   "name": "directory-server",
   "version": "1.0.0",
   "description": "Server for the Directory project",
-  "main": "index.js",
+  "main": "./build/app.js",
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only ./app/app.ts",

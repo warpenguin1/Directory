@@ -8,7 +8,7 @@ export interface Household {
     City: string;
     State: string;
     Zip: number;
-    Anniversary: Date;
+    Anniversary?: Date;
     Hobbies?: string[];
     FavFood?: string[];
     FavScripture?: string;

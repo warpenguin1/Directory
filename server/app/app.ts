@@ -25,7 +25,17 @@ app.get('/household',function(req,res)
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);
         let dbo = db.db(database);
-        dbo.collection('Household').find({}).toArray(function(err, result) {
+
+        let join: object[] = [{
+            $lookup: {
+                from: "Member",
+                localField: "_id",
+                foreignField: "HouseholdId",
+                as: "Members"
+            }
+        }];
+
+        dbo.collection('Household').aggregate(join).toArray(function(err, result) {
             if (err) console.log(err);
             res.send(result);
             db.close();
@@ -38,12 +48,23 @@ app.get('/household/:id',function(req,res)
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);
         let dbo = db.db(database);
-        let id = new ObjectID(req.params.id);
-        dbo.collection('Household').findOne({_id: id}).then(function(result) {
+        let join: object[] = [
+            {
+                $match: { _id: new ObjectID(req.params.id) }
+            },
+            {
+                $lookup: {
+                    from: "Member",
+                    localField: "_id",
+                    foreignField: "HouseholdId",
+                    as: "Members"
+                }
+            }
+        ];
+
+        dbo.collection('Household').aggregate(join).next(function(err, result) {
+            if (err) console.log(err);
             res.send(result);
-            db.close();
-        }).catch(reason => {
-            console.log(reason);
             db.close();
         });
     });
@@ -52,10 +73,17 @@ app.get('/household/:id',function(req,res)
 app.put('/household',function(req,res)
 {
     let update: any = {
-        name: req.body.name,
-        type: req.body.type,
-        author: req.body.author,
-        containerId: new ObjectID(req.body.containerId)
+        LastName: req.body.LastName,
+        Address1: req.body.Address1,
+        Address2: req.body.Address2,
+        City: req.body.City,
+        State: req.body.State,
+        Zip: req.body.Zip,
+        Anniversary: req.body.Anniversary,
+        Hobbies: req.body.Hobbies,
+        FavFood: req.body.FavFood,
+        FavScripture: req.body.FavScripture,
+        FavHymn: req.body.FavHymn
     }
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);
@@ -115,10 +143,18 @@ app.get('/member/:id',function(req,res)
 app.put('/member',function(req,res)
 {
     let update: any = {
-        name: req.body.name,
-        type: req.body.type,
-        author: req.body.author,
-        containerId: new ObjectID(req.body.containerId)
+        HouseholdId: new ObjectID(req.body.HouseholdId),
+        FirstName: req.body.FirstName,
+        Phone: req.body.Phone,
+        Email: req.body.Email,
+        Ocupation: req.body.Ocupation,
+        Birthplace: req.body.Birthplace,
+        Birthdate: req.body.Birthdate,
+        BaptismDate: req.body.BaptismDate,
+        Hobbies: req.body.Hobbies,
+        FavFood: req.body.FavFood,
+        FavScripture: req.body.FavScripture,
+        FavHymn: req.body.FavHymn
     }
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);

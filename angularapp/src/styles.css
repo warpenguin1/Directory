@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.Container {
+  margin: 25px 32px;
+}
+
+.description {
+  font-weight: bold;
+}

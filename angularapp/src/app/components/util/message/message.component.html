@@ -1,1 +1,8 @@
-<p>message works!</p>
+<div *ngIf="messageService.messages.length">
+  <div *ngFor="let message of messageService.messages" class="{{message.Class}}" role="alert">
+    {{message.Text}}
+    <button type="button" (click)="messageService.remove(message)" class="close" aria-label="Close">
+        <mat-icon aria-hidden="true" aria-label="Phone Icon">clear</mat-icon>
+    </button>
+  </div>
+</div>

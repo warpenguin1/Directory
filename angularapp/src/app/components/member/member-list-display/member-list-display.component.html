@@ -1,0 +1,11 @@
+<div class="Container" >
+  <div fxLayout="column" fxFlex="100" >
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <h3><label>Members</label></h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center"
+        *ngIf="members != undefined">
+      <app-member-list members="members" ></app-member-list>
+    </div>
+  </div>
+</div>

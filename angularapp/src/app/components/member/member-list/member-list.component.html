@@ -1,1 +1,41 @@
-<p>member-list works!</p>
+<table *ngIf="members !== undefined && members.length > 0" fxFill mat-table [dataSource]="members" >
+  <ng-container matColumnDef="FirstName">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let member">
+      <a routerLink="/member/detail/{{member._id}}">{{member.FirstName}} {{member.Household.LastName}}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Phone">
+    <th mat-header-cell *matHeaderCellDef>Phone #</th>
+    <td mat-cell *matCellDef="let member">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column">
+        <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let phone of member.Phone; let i = index;">
+          <span *ngIf="i > 0" fxHide.lt-md>, </span>
+          <mat-icon fxHide.xs aria-hidden="true" aria-label="Phone Icon">phone</mat-icon>
+          <a href="tel:{{phone.Number | phone: 'US'}}">
+            <span fxHide.xs class="description">({{phone.Type}}):</span>
+            <span>{{phone.Number}}</span>
+          </a>
+        </div>
+      </div>
+
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let member">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon *ngIf="member.Email !== ''" fxHide.xs aria-hidden="true" aria-label="Email Icon">email</mat-icon>
+        <a href="mailto:{{member.Email}}">{{member.Email}}</a>
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="Birthdate">
+    <th fxHide.xs mat-header-cell *matHeaderCellDef>Birthdate</th>
+    <td fxHide.xs mat-cell *matCellDef="let member">
+      {{member.Birthdate | date:'shortDate'}}
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

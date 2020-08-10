@@ -1,0 +1,36 @@
+<div *ngIf="households !== undefined && households.length > 0" fxLayout="column" fxFlex="100" fxLayoutGap="32px">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <h3><label>Households</label></h3>
+  </div>
+  <div fxLayout="row" fxFlex="100" fxLayoutAlign="start start">
+    <table fxFill mat-table [dataSource]="households" >
+      <ng-container matColumnDef="LastName">
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
+        <td mat-cell *matCellDef="let household">
+          <a routerLink="/household/detail/{{household._id}}">{{household.LastName}}</a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Members">
+        <th mat-header-cell *matHeaderCellDef>Members</th>
+        <td mat-cell *matCellDef="let household">
+          <div *ngIf="household.Members !== undefined && household.Members.length > 0; else noMembers" >
+            <span *ngFor="let member of household.Members; let i=index" >
+              <span *ngIf="i > 0">, </span>
+              <span>{{member.FirstName}}</span>
+            </span>
+          </div>
+          <ng-template #noMembers>
+            No Members
+          </ng-template>
+        </td>
+      </ng-container>
+      <mat-text-column name="Address1"></mat-text-column>
+      <mat-text-column name="Address2"></mat-text-column>
+      <mat-text-column name="City"></mat-text-column>
+      <mat-text-column name="State"></mat-text-column>
+      <mat-text-column name="Zip"></mat-text-column>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

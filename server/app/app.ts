@@ -116,7 +116,19 @@ app.get('/member',function(req,res)
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);
         let dbo = db.db(database);
-        dbo.collection('Member').find({}).toArray(function(err, result) {
+        let join: object[] = [
+            { $lookup: {
+                from: "Household",
+                localField: "HouseholdId",
+                foreignField: "_id",
+                as: "Household"
+            } }, 
+            { $unwind: { 
+                path: "$Household",
+                preserveNullAndEmptyArrays: true
+            }}
+        ];
+        dbo.collection('Member').aggregate(join).toArray(function(err, result) {
             if (err) console.log(err);
             res.send(result);
             db.close();
@@ -130,11 +142,28 @@ app.get('/member/:id',function(req,res)
         if (err) console.log(err);
         let dbo = db.db(database);
         let id = new ObjectID(req.params.id);
-        dbo.collection('Member').findOne({_id: id}).then(function(result) {
+        let join: object[] = [
+            {
+                $match: { _id: new ObjectID(req.params.id) }
+            },
+            {
+                $lookup: {
+                    from: "Household",
+                    localField: "HouseholdId",
+                    foreignField: "_id",
+                    as: "Household"
+                }
+            }, 
+            { 
+                $unwind: { 
+                    path: "$Household",
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ];
+        dbo.collection('Member').aggregate(join).next(function(err, result) {
+            if (err) console.log(err);
             res.send(result);
-            db.close();
-        }).catch(reason => {
-            console.log(reason);
             db.close();
         });
     });
@@ -171,6 +200,7 @@ app.post('/member',function(req,res)
 {
     let update = <Member>req.body;
     update._id = new ObjectID();
+    update.HouseholdId = new ObjectID(update.HouseholdId);
     MongoClient.connect(uri, params, (err, db) => {
         if (err) console.log(err);
         let dbo = db.db(database);

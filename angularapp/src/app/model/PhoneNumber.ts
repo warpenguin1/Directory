@@ -1,5 +1,5 @@
 export interface PhoneNumber {
-  Number: number;
+  Number: string;
   Type: string;
 }
 export interface PhoneType {

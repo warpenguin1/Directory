@@ -1,0 +1,55 @@
+<div *ngIf="household != null"
+     fxLayout="row"
+     fxLayout.lt-md="column"
+     fxLayoutAlign.lt-md="start stretch"
+     fxLayoutAlign="start start"
+     fxLayoutGap="32px">
+  <div fxLayout="column" fxFlex="33" fxFlex.lt-md="" >
+    <div fxLayout="row wrap" fxFlex.lt-md="100">
+        <div fxFill>
+          <label class="description" >Last Name: </label>
+          <span>{{household.LastName}}</span>
+        </div>
+        <div fxFill>
+          <label class="description">Favorite Scripture: </label>
+          <span>{{household.FavScripture}}</span>
+        </div>
+        <div fxFill>
+          <label class="description">Favorite Hymn: </label>
+          <span>{{household.FavHymn}}</span>
+        </div>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" >
+    <div fxLayout="row wrap">
+      <label class="description">Address:</label>
+      <div fxFill>{{household.Address1}}</div>
+      <div fxFill>{{household.Address2}}</div>
+      <div fxFill>{{household.City}}{{household.State}}{{household.Zip}}</div>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" >
+    <div fxLayout="row wrap" >
+      <div fxFill>
+        <label class="description">Anniversary: </label>
+        <span>{{household.Anniversary | date:'shortDate'}}</span>
+      </div>
+      <div fxFill>
+        <label class="description">{{household.Hobbies.length | i18nPlural: hobbieMapping }}: </label>
+        <span *ngFor="let hobby of household.Hobbies; let i=index">
+          <span *ngIf="i > 0">, </span>
+          <span>{{hobby}}</span>
+        </span>
+      </div>
+      <div fxFill>
+        <label class="description">{{household.FavFood.length | i18nPlural: foodMapping }}: </label>
+        <span *ngFor="let food of household.FavFood; let i=index">
+          <span *ngIf="i > 0">, </span>
+          <span>{{food}}</span>
+        </span>
+      </div>
+      <a *ngIf="addMember" fxFill fxFlex.lt-md="100" mat-stroked-button color="primary"
+        routerLink="/member/add/{{household._id}}">Add Member</a>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './util/message.service';
 import { ObjectID } from 'bson';
 
-import { Household } from './../model/Household';
+import { Household, HouseholdDetail } from './../model/Household';
 
 @Injectable({
   providedIn: 'root'
@@ -16,20 +16,20 @@ export class HouseholdService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  getHouseholds(): Observable<Household[]>{
-    return this.http.get<Household[]>(this.containerUrl)
+  getHouseholds(): Observable<HouseholdDetail[]>{
+    return this.http.get<HouseholdDetail[]>(this.containerUrl)
     .pipe(
       tap(_ => this.messageService.log('fetched households')),
-      catchError(this.messageService.handleError<Household[]>('getHouseholds', []))
+      catchError(this.messageService.handleError<HouseholdDetail[]>('getHouseholds', []))
     );
   }
 
-  getHousehold(id: ObjectID): Observable<Household>{
+  getHousehold(id: ObjectID): Observable<HouseholdDetail>{
     const url = `${this.containerUrl}/${id}`;
-    return this.http.get<Household>(url)
+    return this.http.get<HouseholdDetail>(url)
     .pipe(
       tap(_ => this.messageService.log(`fetched household id=${id}`)),
-      catchError(this.messageService.handleError<Household>('getHousehold', null))
+      catchError(this.messageService.handleError<HouseholdDetail>('getHousehold', null))
     );
   }
 

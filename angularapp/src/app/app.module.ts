@@ -13,17 +13,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
-import { HouseholdAddComponent } from './components/houshold/household-add/household-add.component';
-import { HouseholdDetailComponent } from './components/houshold/household-detail/household-detail.component';
-import { HouseholdListComponent } from './components/houshold/household-list/household-list.component';
-import { HouseholdEditComponent } from './components/houshold/household-edit/household-edit.component';
+import { HouseholdAddComponent } from './components/household/household-add/household-add.component';
+import { HouseholdDetailComponent } from './components/household/household-detail/household-detail.component';
+import { HouseholdDetailDisplayComponent } from './components/household/household-detail-display/household-detail-display.component';
+import { HouseholdListComponent } from './components/household/household-list/household-list.component';
+import { HouseholdEditComponent } from './components/household/household-edit/household-edit.component';
 import { MemberListComponent } from './components/member/member-list/member-list.component';
+import { MemberListDisplayComponent } from './components/member/member-list-display/member-list-display.component';
 import { MemberDetailComponent } from './components/member/member-detail/member-detail.component';
 import { MemberAddComponent } from './components/member/member-add/member-add.component';
 import { MemberEditComponent } from './components/member/member-edit/member-edit.component';
 import { MessageComponent } from './components/util/message/message.component';
 import { MenuComponent } from './components/util/menu/menu.component';
+import { PhonePipe } from './pipe/phone.pipe';
+import { PhoneComponent } from './components/util/phone/phone.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +45,11 @@ import { MenuComponent } from './components/util/menu/menu.component';
     MemberAddComponent,
     MemberEditComponent,
     MessageComponent,
-    MenuComponent
+    MenuComponent,
+    PhonePipe,
+    HouseholdDetailDisplayComponent,
+    MemberListDisplayComponent,
+    PhoneComponent
   ],
   imports: [
     BrowserModule,
@@ -52,9 +64,13 @@ import { MenuComponent } from './components/util/menu/menu.component';
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatChipsModule,
+    MatNativeDateModule,
+    MatIconModule
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

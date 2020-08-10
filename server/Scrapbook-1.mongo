@@ -1,0 +1,10 @@
+db.Household.aggregate([
+    {
+        $lookup: {
+            from: "Member",
+            localField: "_id",
+            foreignField: "HouseholdId",
+            as: "Members"
+        }
+    }
+])

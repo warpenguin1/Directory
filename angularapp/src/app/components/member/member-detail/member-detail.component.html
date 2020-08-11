@@ -1,1 +1,93 @@
-<p>member-detail works!</p>
+<div *ngIf="member !== null && member !== undefined" class="Container" >
+  <div fxLayout="column" fxLayoutGap="16px" fxFlex="100" >
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <h2><label>{{member.FirstName}} {{member.Household.LastName}}</label></h2>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column" fxLayoutGap="16px" >
+        <a mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="/household/edit/{{member.HouseholdId}}" >
+          Edit {{member.Household.LastName}} Household
+        </a>
+        <a mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="member/edit/{{member._id}}" >
+          Edit {{member.FirstName}}
+        </a>
+        <a mat-stroked-button color="primary" fxFlex="33" fxFill (click)="delete()" >
+          Delete {{member.FirstName}}
+        </a>
+      </div>
+      <app-household-detail [household]="member.Household"></app-household-detail>
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch" fxLayoutAlign="start start" fxLayoutGap="32px">
+        <div fxLayout="column" fxFlex="33" fxFlex.lt-md="" >
+          <div fxLayout="row wrap" fxFlex.lt-md="100">
+            <div fxFill>
+              <label class="description" >Last Name: </label>
+              <span>{{member.FirstName}}</span>
+            </div>
+            <div fxFill>
+              <label class="description" >Ocupation: </label>
+              <span>{{member.Ocupation}}</span>
+            </div>
+            <div fxFill>
+              <label class="description" >Favorite Scripture: </label>
+              <span>{{member.FavScripture}}</span>
+            </div>
+            <div fxFill>
+              <label class="description" >Favorite Hymn: </label>
+              <span>{{member.FavHymn}}</span>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="33" >
+          <div fxLayout="row wrap">
+            <div fxFill>
+              <label class="description" >Birthdate: </label>
+              <span>{{member.Birthdate | date:'shortDate'}}</span>
+            </div>
+            <div fxFill>
+              <label class="description" >Birth Place: </label>
+              <span>{{member.Birthplace}}</span>
+            </div>
+            <div fxFill>
+              <label class="description" >Phone Numbers: </label>
+              <div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column">
+                <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let phone of member.Phone; let i = index;">
+                  <span *ngIf="i > 0" fxHide.lt-md>, </span>
+                  <mat-icon fxHide.xs aria-hidden="true" aria-label="Phone Icon">phone</mat-icon>
+                  <a href="tel:{{phone.Number | phone: 'US'}}">
+                    <span fxHide.xs class="description">({{phone.Type}}):</span>
+                    <span>{{phone.Number}}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div fxFill>
+              <label class="description" >Email: </label>
+              <span>{{member.Email}}</span>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="33" >
+          <div fxLayout="row wrap" >
+            <div fxFill>
+              <label class="description" >Baptism Date: </label>
+              <span>{{member.BaptismDate | date: 'shortDate'}}</span>
+            </div>
+            <div fxFill>
+              <label class="description">{{member.Hobbies.length | i18nPlural: hobbieMapping }}: </label>
+              <span *ngFor="let hobby of member.Hobbies; let i=index">
+                <span *ngIf="i > 0">, </span>
+                <span>{{hobby}}</span>
+              </span>
+            </div>
+            <div fxFill>
+              <label class="description">{{member.FavFood.length | i18nPlural: foodMapping }}: </label>
+              <span *ngFor="let food of member.FavFood; let i=index">
+                <span *ngIf="i > 0">, </span>
+                <span>{{food}}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

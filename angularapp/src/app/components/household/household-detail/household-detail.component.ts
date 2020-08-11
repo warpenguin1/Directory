@@ -16,7 +16,9 @@ export class HouseholdDetailComponent implements OnInit {
   set household(h: HouseholdDetail) {
     this._HOUSEHOLD = h;
     this._MEMBERS = [];
-    if (this._HOUSEHOLD.Members !== undefined && this._HOUSEHOLD.Members.length > 0){
+    if (this._HOUSEHOLD !== null &&
+        this._HOUSEHOLD.Members !== null &&
+        this._HOUSEHOLD.Members.length > 0){
       for (const member of this._HOUSEHOLD.Members){
         const memberDetail: any = member;
         memberDetail.Household = this._HOUSEHOLD;

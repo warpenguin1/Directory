@@ -1,1 +1,86 @@
-<p>member-edit works!</p>
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch" fxLayoutAlign="start start" fxLayoutGap="32px">
+  <div fxLayout="column" fxFlex="33" fxFlex.lt-md="" >
+    <div fxLayout="row wrap" fxFlex.lt-md="100">
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>First Name</mat-label>
+        <input matInput [(ngModel)]='member.FirstName' />
+      </mat-form-field>
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>Ocupation</mat-label>
+        <input matInput [(ngModel)]='member.Ocupation' />
+      </mat-form-field>
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>Favorite Scripture</mat-label>
+        <input matInput [(ngModel)]='member.FavScripture' />
+      </mat-form-field>
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>Favorite Hymn</mat-label>
+        <input matInput [(ngModel)]='member.FavHymn' />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" >
+    <div fxLayout="row wrap">
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>Birthdate</mat-label>
+        <input matInput [matDatepicker]="BirthdatePicker" [(ngModel)]='member.Birthdate' />
+        <mat-datepicker-toggle matSuffix [for]="BirthdatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #BirthdatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFill >
+        <mat-label>Birth Place</mat-label>
+        <input matInput [(ngModel)]='member.Birthplace' />
+      </mat-form-field>
+      <app-phone fxFill [(PhoneNumber)]="member.Phone" ></app-phone>
+      <mat-form-field fxFill >
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]='member.Email' type="email"
+              [formControl]="emailFormControl" />
+        <mat-error *ngIf="emailFormControl.hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" >
+    <div fxLayout="row wrap" >
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-label>Baptism Date</mat-label>
+        <input matInput [matDatepicker]="BaptismPicker" [(ngModel)]='member.BaptismDate' />
+        <mat-datepicker-toggle matSuffix [for]="BaptismPicker"></mat-datepicker-toggle>
+        <mat-datepicker #BaptismPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-chip-list #hobbyList aria-label="Family Hobbies">
+          <mat-chip *ngFor="let hobby of member.Hobbies" [selectable]="selectable"
+                  [removable]="removable" (removed)="removeHobby(hobby)">
+            {{hobby}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add Family Hobbies"
+                [matChipInputFor]="hobbyList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addHobby($event)">
+        </mat-chip-list>
+      </mat-form-field>
+      <mat-form-field fxFill fxFlex.lt-md="100" >
+        <mat-chip-list #foodList aria-label="Family Favorite Foods">
+          <mat-chip *ngFor="let food of member.FavFood" [selectable]="selectable"
+                  [removable]="removable" (removed)="removeFood(food)">
+            {{food}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add Favorite Foods"
+                [matChipInputFor]="foodList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addFood($event)">
+        </mat-chip-list>
+      </mat-form-field>
+      <button fxFill fxFlex.lt-md="100" mat-stroked-button (click)="callback.save()" color="primary">
+        {{callback.name}}
+      </button>
+    </div>
+  </div>
+</div>

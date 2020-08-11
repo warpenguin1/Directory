@@ -11,7 +11,10 @@ import { PhoneNumber, PhoneType, PhoneTypes } from 'src/app/model/PhoneNumber';
 export class PhoneComponent implements OnInit {
   @Input() PhoneNumber: PhoneNumber[];
   selectedNumber: PhoneNumber = null;
-  types: PhoneType[] = PhoneTypes;
+  types: PhoneType[] = [
+    { Name: 'Moble', Abbreviation: 'M'},
+    { Name: 'Office', Abbreviation: 'O'}
+  ];
   selectible = true;
   removable = true;
   PhoneNumerFormControl = new FormControl('', [

@@ -7,7 +7,7 @@ import { HouseholdEditComponent } from './components/household/household-edit/ho
 import { HouseholdAddComponent } from './components/household/household-add/household-add.component';
 import { MemberListDisplayComponent } from './components/member/member-list-display/member-list-display.component';
 import { MemberDetailComponent } from './components/member/member-detail/member-detail.component';
-import { MemberEditComponent } from './components/member/member-edit/member-edit.component';
+import { MemberEditDisplayComponent } from './components/member/member-edit-display/member-edit-display.component';
 import { MemberAddComponent } from './components/member/member-add/member-add.component';
 
 const routes: Routes = [
@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'household/add', component: HouseholdAddComponent },
   { path: 'members', component: MemberListDisplayComponent },
   { path: 'member/detail/:id', component: MemberDetailComponent },
-  { path: 'member/edit/:id', component: MemberEditComponent },
+  { path: 'member/edit/:id', component: MemberEditDisplayComponent },
   { path: 'member/add/:id', component: MemberAddComponent }
 ];
 

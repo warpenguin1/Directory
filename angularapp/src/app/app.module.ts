@@ -17,6 +17,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HouseholdAddComponent } from './components/household/household-add/household-add.component';
 import { HouseholdDetailComponent } from './components/household/household-detail/household-detail.component';
@@ -32,6 +33,7 @@ import { MessageComponent } from './components/util/message/message.component';
 import { MenuComponent } from './components/util/menu/menu.component';
 import { PhonePipe } from './pipe/phone.pipe';
 import { PhoneComponent } from './components/util/phone/phone.component';
+import { MemberEditDisplayComponent } from './components/member/member-edit-display/member-edit-display.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { PhoneComponent } from './components/util/phone/phone.component';
     PhonePipe,
     HouseholdDetailDisplayComponent,
     MemberListDisplayComponent,
-    PhoneComponent
+    PhoneComponent,
+    MemberEditDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,8 @@ import { PhoneComponent } from './components/util/phone/phone.component';
     MatDatepickerModule,
     MatChipsModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

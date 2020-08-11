@@ -16,7 +16,9 @@ export class MemberListComponent implements OnInit {
   get members(): MemberDetail[] { return this._MEMBERS; }
   set members(m: MemberDetail[]) {
     this._MEMBERS = m;
-    if (this._MEMBERS !== undefined && this._MEMBERS.length > 0){
+    if (this._MEMBERS !== undefined &&
+        this._MEMBERS.length > 0 &&
+        this.table !== undefined) {
       this.table.renderRows();
     }
   }

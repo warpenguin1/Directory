@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './util/message.service';
 import { ObjectID } from 'bson';
 
-import { Member } from './../model/Member';
+import { Member, MemberDetail } from './../model/Member';
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +17,20 @@ export class MemberService {
   };
 
 
-  getMembers(): Observable<Member[]>{
-    return this.http.get<Member[]>(this.containerUrl)
+  getMembers(): Observable<MemberDetail[]>{
+    return this.http.get<MemberDetail[]>(this.containerUrl)
     .pipe(
       tap(_ => this.messageService.log('fetched members')),
-      catchError(this.messageService.handleError<Member[]>('getMembers', []))
+      catchError(this.messageService.handleError<MemberDetail[]>('getMembers', []))
     );
   }
 
-  getMember(id: ObjectID): Observable<Member>{
+  getMember(id: ObjectID): Observable<MemberDetail>{
     const url = `${this.containerUrl}/${id}`;
-    return this.http.get<Member>(url)
+    return this.http.get<MemberDetail>(url)
     .pipe(
       tap(_ => this.messageService.log(`fetched member id=${id}`)),
-      catchError(this.messageService.handleError<Member>('getMember', null))
+      catchError(this.messageService.handleError<MemberDetail>('getMember', null))
     );
   }
 

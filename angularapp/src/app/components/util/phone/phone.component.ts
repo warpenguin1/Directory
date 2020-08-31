@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {FormControl, Validators, AbstractControl, ValidationErrors} from '@angular/forms';
-import { parsePhoneNumber, CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js/min';
-import { PhoneNumber, PhoneType, PhoneTypes } from 'src/app/model/PhoneNumber';
+import { Validators, FormBuilder, ControlContainer, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min';
+import { PhoneNumber, PhoneType } from 'src/app/model/PhoneNumber';
 
 @Component({
   selector: 'app-phone',
@@ -10,57 +10,76 @@ import { PhoneNumber, PhoneType, PhoneTypes } from 'src/app/model/PhoneNumber';
 })
 export class PhoneComponent implements OnInit {
   @Input() PhoneNumber: PhoneNumber[];
-  selectedNumber: PhoneNumber = null;
+  selectedNumber = this.formBuilder.group({
+    Number: ['', [
+      (control: AbstractControl) => {
+        const phoneNumber = parsePhoneNumberFromString(control.value, 'US');
+        if (phoneNumber === undefined || !phoneNumber.isValid()){
+          const errors: ValidationErrors = {
+            NotANumber: 'Phone Number Not valid'
+          };
+          return errors;
+        }
+        return {};
+      }, Validators.required
+    ] ],
+    Type: ['M']
+  });
+  selectedIndex: number = null;
+
   types: PhoneType[] = [
     { Name: 'Moble', Abbreviation: 'M'},
     { Name: 'Office', Abbreviation: 'O'}
   ];
   selectible = true;
   removable = true;
-  PhoneNumerFormControl = new FormControl('', [
-    (control: AbstractControl) => {
-      const phoneNumber = parsePhoneNumberFromString(control.value, 'US');
-      if (phoneNumber === undefined || !phoneNumber.isValid()){
-        const errors: ValidationErrors = {
-          NotANumber: 'Phone Number Not valid'
-        };
-        return errors;
-      }
-      return {};
-    }
-  ]);
+
+  get Number(): FormControl { return this.selectedNumber.get('Number') as FormControl; }
 
   newNumber(): void {
-    this.selectedNumber = {
+    this.selectedNumber.setValue({
       Number: '',
-      Type: 'H'
-    };
+      Type: 'M'
+    });
+    this.selectedIndex = -1;
   }
 
   selectNumber(phoneNumber: PhoneNumber): void {
-    this.selectedNumber = phoneNumber;
+    this.selectedNumber.setValue({
+      Number: phoneNumber.Number,
+      Type: phoneNumber.Type
+    });
+    this.selectedIndex = this.PhoneNumber.indexOf(phoneNumber);
   }
 
   addNumber(): void {
-    const phoneNumber = parsePhoneNumberFromString(this.selectedNumber.Number, 'US');
-    this.selectedNumber.Number = phoneNumber.formatNational();
+    const phoneNumber = parsePhoneNumberFromString(this.selectedNumber.get('Number').value, 'US');
+    const phoneString = phoneNumber.formatNational();
 
-    const index = this.PhoneNumber.indexOf(this.selectedNumber);
-    if (index < 0){
-      this.PhoneNumber.push(this.selectedNumber);
+    if (this.selectedIndex < 0){
+      const result: PhoneNumber = {
+        Number: phoneString,
+        Type: this.selectedNumber.get('Type').value
+      };
+      this.PhoneNumber.push(result);
+    } else {
+      const selected = this.PhoneNumber[this.selectedIndex];
+      selected.Number = phoneString;
+      selected.Type = this.selectedNumber.get('Type').value;
     }
-    this.selectedNumber = null;
+    this.selectedIndex = null;
   }
-
+  cancelSelected(): void {
+    this.selectedIndex = null;
+  }
   removeNumber(phoneNumber: PhoneNumber): void {
     const index = this.PhoneNumber.indexOf(phoneNumber);
     if (index >= 0) {
       this.PhoneNumber.splice(index, 1);
     }
-    this.selectedNumber = null;
   }
 
-  constructor() { }
+  constructor(private controlContainer: ControlContainer, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }

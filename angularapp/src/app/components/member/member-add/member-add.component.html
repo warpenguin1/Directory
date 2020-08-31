@@ -3,6 +3,11 @@
     <div fxLayout="row" fxLayoutAlign="center center">
       <h3><label>Add Member</label></h3>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column" fxLayoutGap="16px" >
+      <a mat-stroked-button color="primary" fxFlex="100" fxFill routerLink="/household/detail/{{household._id}}" >
+        View {{household.LastName}} Household
+      </a>
+    </div>
     <app-household-detail [household]="household"></app-household-detail>
     <app-member-edit [member]="member" [callback]="callback" ></app-member-edit>
   </div>

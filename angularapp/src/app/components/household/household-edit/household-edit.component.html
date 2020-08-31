@@ -1,1 +1,94 @@
-<p>household-edit works!</p>
+<form [formGroup]="householdFD" (ngSubmit)="onSubmit()">
+  <div *ngIf="household" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch" fxLayoutAlign="start start" fxLayoutGap="32px">
+    <div fxLayout="column" fxFlex="33" fxFlex.lt-md="" >
+      <div fxLayout="row wrap" fxFlex.lt-md="100">
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName='LastName' />
+        </mat-form-field>
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-label>Family Favorite Scripture</mat-label>
+          <input matInput formControlName='FavScripture' />
+        </mat-form-field>
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-label>Family Favorite Hymn</mat-label>
+          <input matInput formControlName='FavHymn' />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="33" >
+      <div fxLayout="row wrap">
+        <mat-form-field fxFill >
+          <mat-label>Phone</mat-label>
+          <input matInput (change)='phoneChange()' formControlName='Phone' />
+        </mat-form-field>
+        <mat-form-field fxFill >
+          <mat-label>Address</mat-label>
+          <input matInput formControlName='Address1' />
+        </mat-form-field>
+        <mat-form-field fxFill >
+          <mat-label>Address 2</mat-label>
+          <input matInput formControlName='Address2' />
+        </mat-form-field>
+        <mat-form-field fxFlex="40" fxFill >
+          <mat-label>City</mat-label>
+          <input matInput formControlName='City' />
+        </mat-form-field>
+        <mat-form-field fxFlex="40" fxFill >
+          <mat-label>State</mat-label>
+          <input matInput formControlName='State' />
+        </mat-form-field>
+        <mat-form-field fxFlex="20" fxFill >
+          <mat-label>Zip</mat-label>
+          <input matInput formControlName='Zip' />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="33" >
+      <div fxLayout="row wrap" >
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-label>Anniversary</mat-label>
+          <input matInput [matDatepicker]="AnniversaryPicker" formControlName='Anniversary' />
+          <mat-datepicker-toggle matSuffix [for]="AnniversaryPicker"></mat-datepicker-toggle>
+          <mat-datepicker #AnniversaryPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-chip-list #hobbyList aria-label="Family Hobbies">
+            <mat-chip *ngFor="let hobby of _HOUSEHOLD.Hobbies" [selectable]="selectable"
+                    [removable]="removable" (removed)="removeHobby(hobby)">
+              {{hobby}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Add Family Hobbies"
+                  [matChipInputFor]="hobbyList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addHobby($event)">
+          </mat-chip-list>
+        </mat-form-field>
+        <mat-form-field fxFill fxFlex.lt-md="100" >
+          <mat-chip-list #foodList aria-label="Family Favorite Foods">
+            <mat-chip *ngFor="let food of _HOUSEHOLD.FavFood" [selectable]="selectable"
+                    [removable]="removable" (removed)="removeFood(food)">
+              {{food}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Add Favorite Foods"
+                  [matChipInputFor]="foodList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addFood($event)">
+          </mat-chip-list>
+        </mat-form-field>
+        <div fxLayout="row" fxFill fxFlex.lt-md="100" fxLayoutGap="8px">
+          <button mat-flat-button fxFlex="50" type="submit" [disabled]="!householdFD.valid" color="primary">
+            {{callback.name}}
+          </button>
+          <a mat-stroked-button fxFlex="50" routerLink="/household/detail/{{_HOUSEHOLD._id}}">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

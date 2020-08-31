@@ -1,0 +1,19 @@
+db.Member.aggregate([
+            {
+                $match: { _id: ObjectId("5f3146b98297663a2cb4e886") }
+            },
+            {
+                $lookup: {
+                    from: "Household",
+                    localField: "HouseholdId",
+                    foreignField: "_id",
+                    as: "Household"
+                }
+            }, 
+            { 
+                $unwind: { 
+                    path: "$Household",
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ])

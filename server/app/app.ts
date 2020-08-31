@@ -74,6 +74,7 @@ app.put('/household',function(req,res)
 {
     let update: any = {
         LastName: req.body.LastName,
+        Phone: req.body.Phone,
         Address1: req.body.Address1,
         Address2: req.body.Address2,
         City: req.body.City,

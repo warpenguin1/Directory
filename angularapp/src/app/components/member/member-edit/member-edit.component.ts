@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormArray, Validators, FormControl, FormBuilder } from '@angular/forms';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 import { Member } from 'src/app/model/Member';
 import { SaveCallback } from 'src/app/model/SaveCallback';
-import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-member-edit',
@@ -12,22 +12,70 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
-  @Input() member: Member;
+  _MEMBER: Member;
+  memberFG = this.formBuilder.group({
+    FirstName: ['', Validators.required],
+    Email: ['', Validators.email],
+    Ocupation: [''],
+    Birthplace: [''],
+    Birthdate: [''],
+    BaptismDate: [''],
+    FavScripture: [''],
+    FavHymn: [''],
+  });
+
+  @Input()
+  get member(): Member {
+    return this.getMember();
+  }
+  set member(m: Member) {
+    this.setMember(m);
+  }
   @Input() callback: SaveCallback;
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  emailFormControl = new FormControl('', [
-    Validators.email,
-  ]);
+
+  get favFood(): FormArray {
+    return this.memberFG.get('FavFood') as FormArray;
+  }
+
+  getMember(): Member {
+    const values = this.memberFG.value;
+    const member = this._MEMBER;
+    member.FirstName = values.FirstName;
+    member.Email = values.Email;
+    member.Ocupation = values.Ocupation;
+    member.Birthplace = values.Birthplace;
+    member.Birthdate = values.Birthdate;
+    member.BaptismDate = values.BaptismDate;
+    member.FavScripture = values.FavScripture;
+    member.FavHymn = values.FavHymn;
+    return member;
+  }
+
+  // updates FormGroup with new data
+  setMember(m: Member): void {
+    this._MEMBER = m;
+    this.memberFG.patchValue({
+      FirstName: m.FirstName,
+      Email: m.Email,
+      Ocupation: m.Ocupation,
+      Birthplace: m.Birthplace,
+      Birthdate: m.Birthdate,
+      BaptismDate: m.BaptismDate,
+      FavScripture: m.FavScripture,
+      FavHymn: m.FavHymn
+    });
+  }
 
   addHobby(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      this.member.Hobbies.push(value.trim());
+      this._MEMBER.Hobbies.push(value.trim());
     }
     if (input) {
       input.value = '';
@@ -35,9 +83,9 @@ export class MemberEditComponent implements OnInit {
   }
 
   removeHobby(hobby: string): void {
-    const index = this.member.Hobbies.indexOf(hobby);
+    const index = this._MEMBER.Hobbies.indexOf(hobby);
     if (index >= 0) {
-      this.member.Hobbies.splice(index, 1);
+      this._MEMBER.Hobbies.splice(index, 1);
     }
   }
 
@@ -45,7 +93,7 @@ export class MemberEditComponent implements OnInit {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      this.member.FavFood.push(value.trim());
+      this._MEMBER.FavFood.push(value.trim());
     }
     if (input) {
       input.value = '';
@@ -53,15 +101,20 @@ export class MemberEditComponent implements OnInit {
   }
 
   removeFood(food: string): void {
-    const index = this.member.FavFood.indexOf(food);
+    const index = this._MEMBER.FavFood.indexOf(food);
     if (index >= 0) {
-      this.member.FavFood.splice(index, 1);
+      this._MEMBER.FavFood.splice(index, 1);
     }
   }
 
-  constructor() { }
+  onSubmit(): void {
+    if (this.memberFG.valid) {
+      this.callback.save();
+    }
+  }
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }
-
 }

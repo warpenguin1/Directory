@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column" fxLayoutGap="16px" >
+  <a mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="/household/detail/{{member.HouseholdId}}" >
+    View {{member.Household.LastName}} Household
+  </a>
+  <a *ngIf="!edit" mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="/member/edit/{{member._id}}" >
+    Edit {{member.FirstName}}
+  </a>
+  <a *ngIf="edit" mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="/member/detail/{{member._id}}" >
+    View {{member.FirstName}}
+  </a>
+  <a mat-stroked-button color="primary" fxFlex="33" fxFill (click)="delete()" >
+    Delete {{member.FirstName}}
+  </a>
+</div>

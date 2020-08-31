@@ -18,18 +18,18 @@ export class MemberAddComponent implements OnInit {
   member: Member;
   household: HouseholdDetail = null;
 
-  callback: SaveCallback = {
-    save: null,
-    name: 'Add'
-  };
+  callback: SaveCallback;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private service: MemberService,
               private householdService: HouseholdService) {
-    this.callback.save = () => {
-      this.service.addMember(this.member)
-        .subscribe(_ => this.router.navigateByUrl('household/detail/' + this.household._id));
+    this.callback = {
+      save: () => {
+        this.service.addMember(this.member)
+          .subscribe(_ => this.router.navigateByUrl('household/detail/' + this.household._id));
+      },
+      name: 'Add'
     };
   }
 
@@ -65,6 +65,4 @@ export class MemberAddComponent implements OnInit {
   ngOnInit(): void {
     this.load();
   }
-
-
 }

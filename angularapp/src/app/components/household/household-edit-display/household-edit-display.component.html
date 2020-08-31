@@ -1,0 +1,10 @@
+<div class="Container" >
+  <div fxLayout="column" fxLayoutGap="16px" fxFlex="100" >
+    <div *ngIf="household" fxLayout="row" fxLayoutAlign="center center">
+      <h3><label>Edit {{household.LastName}} Household</label></h3>
+    </div>
+    <app-household-menu [household]="household" [edit]="true" ></app-household-menu>
+    <mat-divider></mat-divider>
+    <app-household-edit [household]="household" [callback]="callback" ></app-household-edit>
+  </div>
+</div>

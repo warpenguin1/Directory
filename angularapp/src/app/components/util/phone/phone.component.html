@@ -1,42 +1,43 @@
-<div gdAreas="main side add remove" gdRows="auto auto 25px 25px" *ngIf="selectedNumber !== null">
-  <mat-form-field gdArea="main">
-    <mat-label>Phone Number</mat-label>
-    <input type="tel"
-            matInput
-            [(ngModel)]='selectedNumber.Number'
-            [formControl]="PhoneNumerFormControl" />
-    <mat-hint>(XXX) XXX-XXXX</mat-hint>
-    <mat-error *ngIf="PhoneNumerFormControl.hasError('NotANumber')">
-      Please enter valid number (XXX) XXX-XXXX
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field gdArea="side">
-    <mat-label>Type</mat-label>
-    <mat-select [(ngModel)]="selectedNumber.Type" >
-      <mat-option *ngFor="let type of types" [value]="type.Abbreviation">
-        {{type.Name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button gdArea="add" (click)="addNumber()" [disabled]="PhoneNumerFormControl.hasError('pattern')" >
-    <mat-icon aria-hidden="true" aria-label="Phone Icon">add</mat-icon>
-  </button>
-  <button gdArea="remove" (click)="removeNumber(selectedNumber)">
-    <mat-icon aria-hidden="true" aria-label="Phone Icon">remove</mat-icon>
-  </button>
-</div>
-<div gdAreas="side button" gdAlignRows="stretch end" *ngIf="selectedNumber === null">
-  <mat-chip-list gdArea="side">
-    <mat-chip *ngFor="let phone of PhoneNumber"
-              [removable]="true"
-              (removed)="removeNumber(phone)"
-              (click)="selectNumber(phone)">
-      <mat-icon aria-hidden="true" aria-label="Phone Icon">phone</mat-icon>
-      <span class="description">({{phone.Type}}):</span>{{phone.Number}}
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
-  <button gdArea="button" (click)="newNumber()">
-    <mat-icon aria-hidden="true" aria-label="Phone Icon">add</mat-icon>
-  </button>
-</div>
+<form [formGroup]="selectedNumber"  (ngSubmit)="addNumber()" >
+  <div gdAreas="main side add remove" gdRows="auto auto 25px 25px" *ngIf="selectedIndex !== null">
+    <mat-form-field gdArea="main">
+      <mat-label>Phone Number</mat-label>
+      <input type="tel"
+              matInput
+              formControlName="Number" />
+      <mat-hint>(XXX) XXX-XXXX</mat-hint>
+      <mat-error *ngIf="Number.invalid && (Number.dirty || Number.touched)">
+        Please enter valid number (XXX) XXX-XXXX
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field gdArea="side">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="Type" >
+        <mat-option *ngFor="let type of types" [value]="type.Abbreviation">
+          {{type.Name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button gdArea="add" type="submit" [disabled]="selectedNumber.hasError()" >
+      <mat-icon aria-hidden="true" aria-label="Phone Icon">add</mat-icon>
+    </button>
+    <button gdArea="remove" (click)="cancelSelected()">
+      <mat-icon aria-hidden="true" aria-label="Phone Icon">cancel</mat-icon>
+    </button>
+  </div>
+  <div gdAreas="side button" gdAlignRows="stretch end" *ngIf="selectedIndex === null">
+    <mat-chip-list gdArea="side">
+      <mat-chip *ngFor="let phone of PhoneNumber"
+                [removable]="true"
+                (removed)="removeNumber(phone)"
+                (click)="selectNumber(phone)">
+        <mat-icon aria-hidden="true" aria-label="Phone Icon">phone</mat-icon>
+        <span class="description">({{phone.Type}}):</span>{{phone.Number}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <button gdArea="button" (click)="newNumber()">
+      <mat-icon aria-hidden="true" aria-label="Phone Icon">add</mat-icon>
+    </button>
+  </div>
+</form>

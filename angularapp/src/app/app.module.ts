@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -34,6 +34,9 @@ import { MenuComponent } from './components/util/menu/menu.component';
 import { PhonePipe } from './pipe/phone.pipe';
 import { PhoneComponent } from './components/util/phone/phone.component';
 import { MemberEditDisplayComponent } from './components/member/member-edit-display/member-edit-display.component';
+import { HouseholdEditDisplayComponent } from './components/household/household-edit-display/household-edit-display.component';
+import { HouseholdMenuComponent } from './components/household/household-menu/household-menu.component';
+import { MemberMenuComponent } from './components/member/member-menu/member-menu.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { MemberEditDisplayComponent } from './components/member/member-edit-disp
     HouseholdDetailDisplayComponent,
     MemberListDisplayComponent,
     PhoneComponent,
-    MemberEditDisplayComponent
+    MemberEditDisplayComponent,
+    HouseholdEditDisplayComponent,
+    HouseholdMenuComponent,
+    MemberMenuComponent
   ],
   imports: [
     BrowserModule,

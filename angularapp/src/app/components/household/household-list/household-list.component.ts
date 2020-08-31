@@ -19,7 +19,7 @@ export class HouseholdListComponent implements OnInit {
   private load(): void {
     this.service.getHouseholds().subscribe(h => {
       this.households = h;
-      if (this.households !== undefined && this.households.length > 0) {
+      if (this.households && this.households.length > 0 && this.table) {
         this.table.renderRows();
       }
     });

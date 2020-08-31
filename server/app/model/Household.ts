@@ -5,6 +5,7 @@ import { Member } from './Member';
 export interface Household {
     _id: ObjectID;
     LastName: string;
+    Phone?: string,
     Address1: string;
     Address2?: string;
     City: string;

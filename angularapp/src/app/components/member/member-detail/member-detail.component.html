@@ -1,19 +1,9 @@
-<div *ngIf="member !== null && member !== undefined" class="Container" >
+<div *ngIf="member" class="Container" >
   <div fxLayout="column" fxLayoutGap="16px" fxFlex="100" >
       <div fxLayout="row" fxLayoutAlign="center center">
         <h2><label>{{member.FirstName}} {{member.Household.LastName}}</label></h2>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start start" fxLayout.lt-md="column" fxLayoutGap="16px" >
-        <a mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="/household/edit/{{member.HouseholdId}}" >
-          Edit {{member.Household.LastName}} Household
-        </a>
-        <a mat-stroked-button color="primary" fxFlex="33" fxFill routerLink="member/edit/{{member._id}}" >
-          Edit {{member.FirstName}}
-        </a>
-        <a mat-stroked-button color="primary" fxFlex="33" fxFill (click)="delete()" >
-          Delete {{member.FirstName}}
-        </a>
-      </div>
+      <app-member-menu [member]="member" [edit]="false" ></app-member-menu>
       <app-household-detail [household]="member.Household"></app-household-detail>
       <mat-divider></mat-divider>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch" fxLayoutAlign="start start" fxLayoutGap="32px">
@@ -62,7 +52,7 @@
             </div>
             <div fxFill>
               <label class="description" >Email: </label>
-              <span>{{member.Email}}</span>
+              <a href="mailto:{{member.Email}}">{{member.Email}}</a>
             </div>
           </div>
         </div>

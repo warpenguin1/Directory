@@ -15,17 +15,17 @@ import { SaveCallback } from 'src/app/model/SaveCallback';
 export class MemberEditDisplayComponent implements OnInit {
   member: MemberDetail;
 
-  callback: SaveCallback = {
-    save: null,
-    name: 'Add'
-  };
+  callback: SaveCallback;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private service: MemberService) {
-    this.callback.save = () => {
-      this.service.addMember(this.member)
-        .subscribe(_ => this.router.navigateByUrl('member/detail/' + this.member._id));
+    this.callback = {
+      save: () => {
+        this.service.updateMember(this.member)
+          .subscribe(_ => this.router.navigateByUrl('member/detail/' + this.member._id));
+      },
+      name: 'Edit'
     };
   }
 
@@ -41,6 +41,7 @@ export class MemberEditDisplayComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.load();
   }
 
 }

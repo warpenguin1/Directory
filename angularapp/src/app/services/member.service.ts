@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './util/message.service';
 import { ObjectID } from 'bson';
 
 import { Member, MemberDetail } from './../model/Member';
+import { ENETUNREACH } from 'constants';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,14 @@ export class MemberService {
     return this.http.get<MemberDetail[]>(this.containerUrl)
     .pipe(
       tap(_ => this.messageService.log('fetched members')),
-      catchError(this.messageService.handleError<MemberDetail[]>('getMembers', []))
+      catchError(this.messageService.handleError<MemberDetail[]>('getMembers', [])),
+      map(values => {
+        for (const m of values){
+          m._id = new ObjectID(m._id);
+          m.HouseholdId = new ObjectID(m.HouseholdId);
+        }
+        return values;
+      })
     );
   }
 
@@ -30,7 +38,12 @@ export class MemberService {
     return this.http.get<MemberDetail>(url)
     .pipe(
       tap(_ => this.messageService.log(`fetched member id=${id}`)),
-      catchError(this.messageService.handleError<MemberDetail>('getMember', null))
+      catchError(this.messageService.handleError<MemberDetail>('getMember', null)),
+      map(value => {
+        value._id = new ObjectID(value._id);
+        value.HouseholdId = new ObjectID(value.HouseholdId);
+        return value;
+      })
     );
   }
 

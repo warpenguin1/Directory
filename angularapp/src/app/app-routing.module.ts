@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HouseholdListComponent } from './components/household/household-list/household-list.component';
 import { HouseholdDetailDisplayComponent } from './components/household/household-detail-display/household-detail-display.component';
-import { HouseholdEditComponent } from './components/household/household-edit/household-edit.component';
+import { HouseholdEditDisplayComponent } from './components/household/household-edit-display/household-edit-display.component';
 import { HouseholdAddComponent } from './components/household/household-add/household-add.component';
 import { MemberListDisplayComponent } from './components/member/member-list-display/member-list-display.component';
 import { MemberDetailComponent } from './components/member/member-detail/member-detail.component';
@@ -11,10 +11,10 @@ import { MemberEditDisplayComponent } from './components/member/member-edit-disp
 import { MemberAddComponent } from './components/member/member-add/member-add.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'household/add', pathMatch: 'full' },
+  { path: '', redirectTo: 'households', pathMatch: 'full' },
   { path: 'households', component: HouseholdListComponent },
   { path: 'household/detail/:id', component: HouseholdDetailDisplayComponent },
-  { path: 'household/edit/:id', component: HouseholdEditComponent },
+  { path: 'household/edit/:id', component: HouseholdEditDisplayComponent },
   { path: 'household/add', component: HouseholdAddComponent },
   { path: 'members', component: MemberListDisplayComponent },
   { path: 'member/detail/:id', component: MemberDetailComponent },
